@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../utils/qr_code_scanner.dart';
+
 class MarketScreen extends StatefulWidget {
   MarketScreen({Key? key}) : super(key: key);
 
@@ -123,7 +125,9 @@ class _MarketScreenState extends State<MarketScreen> {
             hintText: "Scan QR code",
             icon: Icons.qr_code_sharp,
             onPressed: () {
-              // Perform QR code scan action
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const QRViewExample(),
+              ));
             },
           ),
           Flexible(
