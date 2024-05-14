@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:data_fetch/screens/activity_screen.dart';
+import 'package:data_fetch/screens/attendance_screen.dart';
 import 'package:data_fetch/screens/login_screen.dart';
 import 'package:data_fetch/screens/market_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -99,10 +101,30 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.fact_check_outlined),
+            title: Text(
+              'Attendance',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onTap: () {
+              // Navigate to see entered outlet page
+              // SharedPreferenceController cache = Get.find();
+              // log(cache.user?.userId ?? "");
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AttendanceScreen()),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.logout),
             title: Text(
               'Logout',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -113,7 +135,7 @@ class CustomDrawer extends StatelessWidget {
               // navigatorKey.currentState!.pop();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => LoginScreen(),
+                  builder: (context) => const LoginScreen(),
                 ),
               );
             },

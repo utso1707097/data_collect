@@ -84,7 +84,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   Icon(
                     MdiIcons.store,
                     size: 100,
-                    color: Color(0xff64FFDA),
+                    color: Colors.white,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
