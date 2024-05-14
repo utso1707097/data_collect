@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:data_fetch/screens/activity_screen.dart';
+import 'package:data_fetch/screens/login_screen.dart';
+import 'package:data_fetch/screens/market_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -79,7 +81,7 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.view_list),
             title: Text(
-              'Dashboard',
+              'Store',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -89,11 +91,11 @@ class CustomDrawer extends StatelessWidget {
               // Navigate to see entered outlet page
               // SharedPreferenceController cache = Get.find();
               // log(cache.user?.userId ?? "");
-              // Navigator.pop(context);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => EnteredOutletPage(userId: cache.user?.userId ?? "")),
-              // );
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MarketScreen()),
+              );
             },
           ),
           ListTile(
@@ -109,11 +111,11 @@ class CustomDrawer extends StatelessWidget {
               // SharedPreferenceController cache = Get.find();
               // await cache.logout();
               // navigatorKey.currentState!.pop();
-              // navigatorKey.currentState!.pushReplacement(
-              //   MaterialPageRoute(
-              //     builder: (context) => LoginPage(),
-              //   ),
-              // );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => LoginScreen(),
+                ),
+              );
             },
           ),
         ],
