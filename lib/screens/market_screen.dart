@@ -1,11 +1,16 @@
+import 'package:data_fetch/widgets/custom_search_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class MarketScreen extends StatelessWidget {
+class MarketScreen extends StatefulWidget {
   MarketScreen({Key? key}) : super(key: key);
 
-  // Dummy data for stores
+  @override
+  _MarketScreenState createState() => _MarketScreenState();
+}
+
+class _MarketScreenState extends State<MarketScreen> {
   final List<Map<String, dynamic>> stores = [
     {
       'name': 'Dhaka Store',
@@ -25,6 +30,28 @@ class MarketScreen extends StatelessWidget {
     // Add more stores as needed
   ];
 
+  List<Map<String, dynamic>> filteredStores = [];
+  TextEditingController searchController = TextEditingController();
+  TextEditingController qrController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    filteredStores = stores;
+    searchController.addListener(() {
+      filterStores();
+    });
+  }
+
+  void filterStores() {
+    setState(() {
+      String query = searchController.text.toLowerCase();
+      filteredStores = stores.where((store) {
+        return store['name'].toLowerCase().contains(query);
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,18 +62,19 @@ class MarketScreen extends StatelessWidget {
             width: double.infinity,
             height: MediaQuery.of(context).size.height * 0.25,
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xff2517FF),
-                    Color(0xff5298F0),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(15),
-                )),
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff2517FF),
+                  Color(0xff5298F0),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+              ),
+            ),
             child: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -80,13 +108,31 @@ class MarketScreen extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
+          SizedBox(height: 10),
+          CustomSearchField(
+            controller: searchController,
+            hintText: "Search Retail",
+            icon: Icons.search,
+            onPressed: () {
+              // Perform search action
+            },
+          ),
+          SizedBox(height: 10),
+          CustomSearchField(
+            controller: qrController,
+            hintText: "Scan QR code",
+            icon: Icons.qr_code_sharp,
+            onPressed: () {
+              // Perform QR code scan action
+            },
+          ),
+          Flexible(
             child: ListView.builder(
-              itemCount: stores.length,
+              itemCount: filteredStores.length,
               itemBuilder: (context, index) {
-                final store = stores[index];
+                final store = filteredStores[index];
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
@@ -104,9 +150,6 @@ class MarketScreen extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      // Handle tap on the store tile
-                      // You can navigate to a detailed screen or perform any action
-                      // Here, I'm just printing the name of the tapped store
                       print('Tapped store: ${store['name']}');
                     },
                     contentPadding: EdgeInsets.all(10),
