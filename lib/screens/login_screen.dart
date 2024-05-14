@@ -1,3 +1,4 @@
+import 'package:data_fetch/widgets/custom_alert_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import '../controllers/login_controller.dart';
 import '../utils/custom_grid_painter.dart';
 import '../widgets/custom_elevated_button.dart';
 import '../widgets/custom_text_field.dart';
+import 'activity_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -104,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: controller.nameController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter a username';
+                                    return '';
                                   }
                                   return null; // Return null if the input is valid
                                 },
@@ -117,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: controller.passwordController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter a username';
+                                    return '';
                                   }
                                   return null;
                                 },
@@ -126,7 +128,50 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 50,
                               ),
                               CustomElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  FocusScope.of(context).unfocus();
+                                  if (_formKey.currentState?.validate() ??
+                                      false) {
+                                    controller.nameController.clear();
+                                    controller.passwordController.clear();
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ActivityScreen(),
+                                      ),
+                                    );
+                                  } else {
+                                    if (controller.nameController.text ==
+                                            null ||
+                                        controller
+                                            .nameController.text.isEmpty) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return CustomAlertDialog(
+                                            title: "Error",
+                                            message: "Username is required",
+                                          );
+                                        },
+                                      );
+                                    } else if (controller
+                                                .passwordController.text ==
+                                            null ||
+                                        controller
+                                            .passwordController.text.isEmpty) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return CustomAlertDialog(
+                                            title: "Error",
+                                            message: "Password is required",
+                                          );
+                                        },
+                                      );
+                                    }
+                                  }
+                                },
                                 buttonText: "Login",
                               ),
                             ],

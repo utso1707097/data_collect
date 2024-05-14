@@ -1,9 +1,11 @@
+import 'package:data_fetch/screens/activity_screen.dart';
 import 'package:data_fetch/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'controllers/binder.dart';
+import 'controllers/shared_preference_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +30,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: GetBuilder<SharedPreferenceController>(
+        builder: (cache) {
+          return cache.authState == true ? const ActivityScreen() : const LoginScreen();
+        },
+      ),
     );
   }
 }
